@@ -1,51 +1,29 @@
 public class ManagerAfisha {
-    private AfishaItems[] items = new AfishaItems[0];
-    private int countOfItems;
+    private AfishaRepository repository;
 
-    public ManagerAfisha() {
-        this.countOfItems = 10;
-    }
-
-    public ManagerAfisha(int amount) {
-        this.countOfItems = amount;
+    public ManagerAfisha(AfishaRepository repository) {
+        this.repository = repository;
     }
 
     public void add(AfishaItems item) {
-        AfishaItems[] tmp = new AfishaItems[items.length + 1];
-        for (int i = 0; i < items.length; i++) {
-            tmp[i] = items[i];
-        }
-        tmp[tmp.length - 1] = item;
-        items = tmp;
+        repository.save(item);
     }
 
-    public AfishaItems[] getItems() {
-        return items;
+    public AfishaItems[] managerGetItems() {
+        return repository.getItems();
     }
 
-    public AfishaItems[] findAll() {
-        AfishaItems[] reversed = new AfishaItems[items.length];
-        for (int i = 0; i < reversed.length; i++) {
-            reversed[i] = items[items.length - 1 - i];
-        }
-        return reversed;
+    public AfishaItems[] managerFindAll() {
+        return repository.findAll();
     }
 
-    public AfishaItems[] findLast() {
+    public AfishaItems[] findLast(int countOfItems) {
+        AfishaItems[] tmp = repository.getItems();
         int lengthNewArray;
-        lengthNewArray = Math.min(items.length, this.countOfItems);
-        /* Можно вместо Math для вычисления длины нового массива воспользоваться
-           стандартным if-else, как рекомендовано в условиях дз
-
-          if (items.length <= this.countOfItems) {
-            lengthNewArray = items.length;
-            }
-          else {lengthNewArray = this.countOfItems;}
-        */
-
+        lengthNewArray = Math.min(tmp.length, countOfItems);
         AfishaItems[] countOfLast = new AfishaItems[lengthNewArray];
         for (int i = 0; i < countOfLast.length; i++) {
-            countOfLast[i] = items[items.length - 1 - i];
+            countOfLast[i] = tmp[tmp.length - 1 - i];
         }
         return countOfLast;
     }
